@@ -37,8 +37,8 @@ def mash_dfs(table_dict, date):
         new_df = pd.concat([old_df, df], axis=1)
     else:
         new_df = old_df
-    new_df.to_csv("../data/latest_df_new.tsv", sep="\t", header=True, index=True)
-
+    new_df.fillna(0, inplace=True)
+    new_df.sort_index(inplace=True)
     return new_df
 
 def plot_counties(df):
@@ -49,16 +49,12 @@ def plot_counties(df):
         
 def main():
     r = requests.get(TABLE_URL)
-    
     soup = BeautifulSoup(r.text, "html.parser")
-    
     table_dict, date = soup2dict(soup)
-
     new_df = mash_dfs(table_dict, date)
-
+    new_df.to_csv("../data/latest_df_new.tsv", sep="\t", header=True, index=True)
     plot_counties(new_df)
 
-    
 parser = argparse.ArgumentParser()
 
 args = parser.parse_args()
