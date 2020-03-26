@@ -24,7 +24,7 @@ def soup2dict(soup):
     table = soup.findAll("td")
     
     table_dict = {
-        table[2*i].text.strip().strip(":").strip(): {date: int(table[2*i+1].text.replace(",", ""))}
+        table[2*i].text.strip().strip(":").strip(): {date: float(table[2*i+1].text.replace(",", ""))}
         for i in range(int(len(table) / 2))
     }
 
